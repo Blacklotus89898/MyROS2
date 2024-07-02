@@ -1,0 +1,25 @@
+Ros commands:
+ros2 node list
+ros2 node info
+ros2 run packageName executableName
+rqt_graph
+ros2 topic echo topicName
+ros2 interface show msgType
+ros2 topic pub topicName msgType 'arguments'
+ros2 topic hz topicName
+ros2 service type serviceName
+ros2 param list
+ros2 param set nodeName paramName aValue
+ros2 action list
+ros2 run rqt_console rqt_console
+ros2 topic pub -r 1 /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}"
+ros2 topic pub -r 1 /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}"
+ros2 launch //supports python launch script
+ros2 bag //logging data bag_files is stored in the invoked directory
+
+Build tool:
+colcon
+colcon build --symlink-install
+ros2 pkg create
+
+
