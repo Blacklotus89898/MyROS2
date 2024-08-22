@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROS 2 Web Interface</title>
+    <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
+    <script>
+        window.onload = function() {
+            // Create a connection to the rosbridge WebSocket
+            var ros = new ROSLIB.Ros({
+                url: 'ws://localhost:9090'  // Adjust the WebSocket URL if necessary
+            });
+
+            // Define what happens when connected
+            ros.on('connection', function() {
+                console.log('Connected to WebSocket server.');
+            });
+
+            // Define what happens on error
+            ros.on('error', function(error) {
+                console.log('Error connecting to WebSocket server:', error);
+            });
+
+            // Define what happens when the connection closes
+            ros.on('close', function() {
+                console.log('Connection to WebSocket server closed.');
+            });
+
+            // Create a Topic object for subscribing
+            var listener = new ROSLIB.Topic({
+                ros: ros,
+                name: '/your_topic',  // Replace with the topic you want to subscribe to
+                messageType: 'std_msgs/String'  // Replace with the appropriate message type
+            });
+
+            // Subscribe to the topic
+            listener.subscribe(function(message) {
+                console.log('Received message on ' + listener.name + ': ' + message.data);
+            });
+
+            // Create a Topic object for publishing
+            var publisher = new ROSLIB.Topic({
+                ros: ros,
+                name: '/your_topic',  // Replace with the topic you want to publish to
+                messageType: 'std_msgs/String'  // Replace with the appropriate message type
+            });
+
+            // Create a message to publish
+            var message = new ROSLIB.Message({
+                data: 'Hello from the web!'
+            });
+
+            // Publish the message
+            publisher.publish(message);
+
+            console.log('Message published to ' + publisher.name);
+        };
+    </script>
+</head>
+<body>
+    <h1>ROS 2 Web Interface</h1>
+    <p>Check the console for WebSocket connection status and ROS communication logs.</p>
+</body>
+</html>
+
