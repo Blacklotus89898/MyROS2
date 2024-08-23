@@ -34,6 +34,7 @@ jobs:
 
       - name: Build ROS 2 workspace
         run: |
+          source /opt/ros/humble/setup.bash
           mkdir -p ~/ros2_ws/src
           cp -r . ~/ros2_ws/src
           cd ~/ros2_ws
