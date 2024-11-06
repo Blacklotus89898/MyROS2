@@ -33,7 +33,7 @@ jobs:
       run: sleep 10
 
     - name: Stop development server
-      run: kill $(jobs -p)
+      run: npm stop
       working-directory: react-ros2
 
     - name: Cleanup
