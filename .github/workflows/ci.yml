@@ -15,9 +15,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    
-    - name: Change to react-ros2 directory
-      run: cd react-ros2
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
@@ -26,6 +23,8 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: react-ros2
 
     - name: Run development server
       run: npm run dev
+      working-directory: react-ros2
