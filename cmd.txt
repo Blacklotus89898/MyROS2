@@ -26,5 +26,12 @@ colcon
 colcon build --symlink-install
 ros2 pkg create
 
-Dcoker for Unity
- 
+Docker:
+docker run -it --rm -p 10000:10000 foxy /bin/bash //delete immediately after use
+docker run -it -p 10000:10000 --name my_foxy_container foxy /bin/bash
+docker start -ai my_foxy_container
+
+Unity:
+ros2 run ros_tcp_endpoint default_server_endpoint
+
+
