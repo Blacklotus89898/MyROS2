@@ -9,6 +9,8 @@ const RosNodeController = () => {
 
   const [publisher, setPublisher] = useState<ROSLIB.Topic | null>(null);
   const [subscriber, setSubscriber] = useState<ROSLIB.Topic | null>(null);
+  const [subscriberName, setSubscriberName] = useState<string>("");
+  const [publisherName, setPublisherName] = useState<string>("");
 
   useEffect(() => {
     if (ros) {
@@ -48,6 +50,34 @@ const RosNodeController = () => {
     }
   }, [ros]);
 
+  useEffect(() => {
+    if (subscriber) {
+      subscriber.unsubscribe();
+      console.log('Unsubscribed from /topic');
+    }
+    
+    const outputSubscriber = new ROSLIB.Topic({
+      ros: ros,
+      name: subscriberName,
+      messageType: 'std_msgs/String',
+    });
+    
+    setSubscriber(outputSubscriber);
+    
+    if (subscriber) {
+      outputSubscriber.subscribe((message: ROSLIB.Message) => {
+        const dataMessage = message as ROSLIB.Message & { data: string };
+        console.log('Received terminal output:', dataMessage.data);
+        setTerminalOutput(dataMessage.data);
+      });
+    }
+
+
+
+
+  }, [subscriberName]);
+
+
   const handlePublishCommand = () => {
     if (publisher) {
       const message = new ROSLIB.Message({ data: command });
@@ -60,6 +90,12 @@ const RosNodeController = () => {
   return (
     <div style={{ border: '1px solid black', padding: '10px', flex: '1 1 200px' }}>
       <h2>ROS Node Controller</h2>
+      <input type="text"
+        placeholder="Topic Name"
+        value={publisherName}
+        onChange={(e) => setPublisherName(e.target.value)}
+        style={{ width: '70%', marginRight: '10px' }}
+      />
       
       <div style={{ marginBottom: '10px' }}>
         <input
@@ -73,6 +109,17 @@ const RosNodeController = () => {
       </div>
 
       <h3>Terminal Output</h3>
+      <input type="text"
+        placeholder="Subscriber Topic Name"
+        value={subscriberName}
+        onChange={(e) => setSubscriberName(e.target.value)}
+        onBlur={() => {
+          if (subscriberName.trim() !== "") {
+        setSubscriberName(subscriberName);
+          }
+        }}
+        style={{ width: '70%', marginRight: '10px' }}
+      />
       <pre style={{ border: '1px solid gray', padding: '10px', whiteSpace: 'pre-wrap' }}>
         {terminalOutput || 'No output received yet.'}
       </pre>

@@ -6,7 +6,7 @@ import VideoFeed from '../components/VideoWebRTC';
 function Sandbox() {
   return (
     <>
-    <h2>Sandbox Page</h2>;
+    <h2>Sandbox Page</h2>
     <TopicForm />
     <VideoFeed />
     </>
